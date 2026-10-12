@@ -1,0 +1,19 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+*.tfvars
+!*.tfvars.example
+crash.log
+
+# Kunci dan rahasia
+*.pem
+*.key
+id_*
+jenkins_lab_*
+.env
+*.env
+
+.DS_Store

@@ -1,0 +1,8 @@
+# Salin menjadi terraform.tfvars lalu sesuaikan
+developer_ip_cidr     = "203.0.113.10/32" # ganti dengan IP publik Anda: curl -s https://checkip.amazonaws.com
+aws_region            = "ap-southeast-1"
+jenkins_instance_type = "t3.small"
+
+# Sesuaikan path kunci publik
+admin_public_key_path  = "~/.ssh/jenkins_lab_admin.pub"
+deploy_public_key_path = "~/.ssh/jenkins_lab_deploy.pub"
