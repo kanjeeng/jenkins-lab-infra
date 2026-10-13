@@ -43,18 +43,21 @@ EOF2
 systemctl enable --now docker
 systemctl restart docker
 
-# ---------- Jenkins LTS (repo resmi, HTTPS, signed-by) ----------
-curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key -o /etc/apt/keyrings/jenkins-keyring.asc
-echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list
+# ---------- Jenkins LTS (repo resmi, HTTPS, signed-by, GPG Keyring 2026) ----------
+install -d -m 0755 /usr/share/keyrings
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key | gpg --dearmor --yes -o /usr/share/keyrings/jenkins-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/" \
+  > /etc/apt/sources.list.d/jenkins.list
 apt-get update -y
 apt-get install -y jenkins
 usermod -aG docker jenkins
 systemctl enable jenkins
 systemctl restart jenkins
 
-# ---------- Trivy (pemindai image, gratis) ----------
-curl -fsSL https://aquasecurity.github.io/trivy-repo/deb/public.key -o /etc/apt/keyrings/trivy.asc
-echo "deb [signed-by=/etc/apt/keyrings/trivy.asc] https://aquasecurity.github.io/trivy-repo/deb generic main" > /etc/apt/sources.list.d/trivy.list
+# ---------- Trivy (pemindai image resmi dengan dearmor) ----------
+curl -fsSL https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor --yes -o /usr/share/keyrings/trivy.gpg
+echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" \
+  > /etc/apt/sources.list.d/trivy.list
 apt-get update -y
 apt-get install -y trivy
 
